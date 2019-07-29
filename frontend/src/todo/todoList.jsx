@@ -1,41 +1,48 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import {remove, markAsDone} from './todoActions'
+
 import IconButton from '../template/iconButton';
 
-const TodoList = props => {
+class TodoList extends Component {
 
-  const renderRows = () => {
-    const list = props.list || []
+  renderRows(){
+    const list = this.props.list || []
 
     return list.map(todo => (
       <tr key={todo._id}>
           <td className={todo.done ? 'taskDone' : ''}>{todo.description}</td>
           <td>
-            <IconButton icon="check" style="success" onClick={() => props.handleMarkAsDone(todo)} hide={todo.done}></IconButton>
-            <IconButton icon="undo" style="warning" onClick={() => props.handleMarkAsPending(todo)} hide={!todo.done}></IconButton>
-            <IconButton icon="trash-o" style="danger" onClick={() => props.handleDelete(todo)}></IconButton>
+            <IconButton icon="check" style="success" onClick={() => this.props.markAsDone(todo)} hide={todo.done}></IconButton>
+            <IconButton icon="undo" style="warning" onClick={() => this.props.handleMarkAsPending(todo)} hide={!todo.done}></IconButton>
+            <IconButton icon="trash-o" style="danger" onClick={() => this.props.remove(todo._id)}></IconButton>
           </td>
       </tr>
     ))
   }
 
-  return (
-    <table className="table">
-
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th className="tableActions">Ações</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {renderRows()}
-      </tbody>
-    </table>
-  )
+  render(){
+    return (
+      <table className="table">
+  
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th className="tableActions">Ações</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          {this.renderRows()}
+        </tbody>
+      </table>
+    )
+  }
 }
 
 const mapStateToProps = state => ({list: state.todo.list})
+const mapDispatchToProps = dispatch => bindActionCreators({remove, markAsDone}, dispatch)
 
-export default connect(mapStateToProps) (TodoList)
+export default connect(mapStateToProps, mapDispatchToProps) (TodoList)

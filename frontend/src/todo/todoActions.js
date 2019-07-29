@@ -23,3 +23,19 @@ export const add = (description) => {
             .then(resp => dispatch(search()))
     }
 }
+
+export const remove = (id) => {
+    return  dispatch => {
+        axios.delete(`${URL}/${id}`)
+            .then(resp => dispatch({ type: 'TODO_REMOVED', payload: resp}))
+            .then(resp => dispatch(search()))
+    }
+}
+
+export const markAsDone = (todo) => {
+    return  dispatch => {
+        axios.put(`${URL}/${todo._id}`, {...todo, done: true})
+            .then(resp => dispatch({ type: 'TODO_DONE', payload: resp}))
+            .then(resp => dispatch(search()))
+    }
+}
