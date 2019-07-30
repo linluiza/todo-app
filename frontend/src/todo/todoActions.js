@@ -19,23 +19,30 @@ export const search = (description) =>{
 export const add = (description) => {
     return  dispatch => {
         axios.post(URL, {description})
-            .then(resp => dispatch({ type: 'TODO_ADDED', payload: resp}))
-            .then(resp => dispatch(search()))
+        .then(resp => dispatch(clearDescription()))
+        .then(resp => dispatch(search()))
     }
 }
 
 export const remove = (id) => {
     return  dispatch => {
         axios.delete(`${URL}/${id}`)
-            .then(resp => dispatch({ type: 'TODO_REMOVED', payload: resp}))
-            .then(resp => dispatch(search()))
+        .then(resp => dispatch({ type: 'TODO_REMOVED', payload: resp}))
+        .then(resp => dispatch(search()))
     }
 }
 
 export const markAsDone = (todo, value) => {
     return  dispatch => {
         axios.put(`${URL}/${todo._id}`, {...todo, done: value})
-            .then(resp => dispatch({ type: 'TODO_DONE', payload: resp}))
-            .then(resp => dispatch(search()))
+        .then(resp => dispatch({ type: 'TODO_DONE', payload: resp}))
+        .then(resp => dispatch(search()))
+    }
+}
+
+export const clearDescription = () => {
+    return  dispatch => {
+        dispatch({type: 'DESCRIPTION_CLEARED'}),
+        dispatch(search())
     }
 }
