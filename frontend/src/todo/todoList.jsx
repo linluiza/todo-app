@@ -10,14 +10,15 @@ class TodoList extends Component {
 
   renderRows(){
     const list = this.props.list || []
+    const { markAsDone, remove } = this.props
 
     return list.map(todo => (
       <tr key={todo._id}>
           <td className={todo.done ? 'taskDone' : ''}>{todo.description}</td>
           <td>
-            <IconButton icon="check" style="success" onClick={() => this.props.markAsDone(todo)} hide={todo.done}></IconButton>
-            <IconButton icon="undo" style="warning" onClick={() => this.props.handleMarkAsPending(todo)} hide={!todo.done}></IconButton>
-            <IconButton icon="trash-o" style="danger" onClick={() => this.props.remove(todo._id)}></IconButton>
+            <IconButton icon="check" style="success" onClick={() => markAsDone(todo, true)} hide={todo.done}></IconButton>
+            <IconButton icon="undo" style="warning" onClick={() => markAsDone(todo, false)} hide={!todo.done}></IconButton>
+            <IconButton icon="trash-o" style="danger" onClick={() => remove(todo._id)}></IconButton>
           </td>
       </tr>
     ))

@@ -32,9 +32,9 @@ export const remove = (id) => {
     }
 }
 
-export const markAsDone = (todo) => {
+export const markAsDone = (todo, value) => {
     return  dispatch => {
-        axios.put(`${URL}/${todo._id}`, {...todo, done: true})
+        axios.put(`${URL}/${todo._id}`, {...todo, done: value})
             .then(resp => dispatch({ type: 'TODO_DONE', payload: resp}))
             .then(resp => dispatch(search()))
     }
