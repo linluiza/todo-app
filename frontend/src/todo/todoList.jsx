@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import {remove, markAsDone} from './todoActions'
 
 import IconButton from '../template/iconButton';
+import If from '../template/if'
 
 class TodoList extends Component {
 
@@ -26,19 +27,28 @@ class TodoList extends Component {
 
   render(){
     return (
-      <table className="table">
-  
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th className="tableActions">Ações</th>
-          </tr>
-        </thead>
-  
-        <tbody>
-          {this.renderRows()}
-        </tbody>
-      </table>
+      <div>
+        <If condition={this.props.list.length > 0}>
+
+          <table className="table">
+      
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th className="tableActions">Ações</th>
+              </tr>
+            </thead>
+      
+            <tbody>
+              {this.renderRows()}
+            </tbody>
+          </table>
+        </If>
+
+        <If condition={this.props.list.length == 0}>
+          <label>Não existem tarefas cadastradas</label>
+        </If>
+      </div>
     )
   }
 }
